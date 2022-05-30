@@ -14,12 +14,7 @@ import java.util.StringTokenizer;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.Image;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -138,7 +133,6 @@ public class PackingController {
 		Stage stage = (Stage) cancelBtn.getScene().getWindow();
 		stage.close();
 	}
-
 	@FXML
 	void GenerateReport(ActionEvent event) {
 		String a =null;
@@ -151,17 +145,14 @@ public class PackingController {
 				// if(file.exists()) desktop.open(file);
 	
 				// let's try to open PDF file
-				// file = new File("/Users/pankaj/java.pdf");
 				if (file.exists())
 					desktop.open(file);
 	
 			} catch (Exception fe) {
 				System.out.println(" Unable to Open File");
 			}
-			
 			PdfPTable table = new PdfPTable(new float[] { 0.6f, 1.6f, 1.6f, 1.4f, 1.4f, 1.4f, 1.4f, 0.7f });
 			table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
-			
 			table.setWidthPercentage(100f);
 			table.addCell("S.no");
 			table.addCell("Cr no.");
@@ -171,13 +162,7 @@ public class PackingController {
 			table.addCell("Sample Number");
 			table.addCell("Date");
 			table.addCell("QR Code");
-
 			table.setHeaderRows(1);
-			
-			
-			
-			
-
 			PdfPCell[] cells = table.getRow(0).getCells();
 			for (int j = 0; j < cells.length; j++) {
 				cells[j].setBackgroundColor(BaseColor.GRAY);
@@ -192,7 +177,6 @@ public class PackingController {
 					a = data;
 					StringTokenizer st = new StringTokenizer(data, "@");
 					while (st.hasMoreTokens()) {
-						
 						LabRecord[loc][0] = "" + st.nextToken();
 						LabRecord[loc][1] = "" + st.nextToken();
 						LabRecord[loc][2] = "" + st.nextToken();
@@ -200,7 +184,6 @@ public class PackingController {
 						LabRecord[loc][4] = "" + st.nextToken();
 						LabRecord[loc][5] = "" + st.nextToken();
 						LabRecord[loc][6] = "" + st.nextToken();
-						
 					}
 					ByteArrayOutputStream out = QRCode.from(a).to(ImageType.PNG).withSize(5, 5).stream();
 					ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
@@ -216,29 +199,18 @@ public class PackingController {
 					table.addCell(LabRecord[loc][4]);
 					table.addCell(LabRecord[loc][5]);
 					table.addCell(LabRecord[loc][6]);
-
 					table.addCell(new PdfPCell(img1, true));
-					
-					
-
-					
 					loc++;
 				}
-				
-				
 				PdfWriter.getInstance(document, new FileOutputStream("F:/generate_pdf/sample4.pdf"));
 				document.open();
 				document.add(table);
 				document.close();
 				System.out.println("Done");
-
 			}
 		} catch (Exception e) {
 			System.err.println(e);
 
 		}
 	}
-
-	
-
 }
